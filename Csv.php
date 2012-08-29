@@ -1,5 +1,4 @@
 <?php
-namespace Statistic;
 /**
  * Simple class for CSV file manipulation.
  * You can read, write new value to the
