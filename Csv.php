@@ -76,6 +76,36 @@ class Csv
             $this->file($options);
         }
     }
+    
+    /**
+     * Magic convert to string method
+     * @return string
+     */
+    public function __toString() {
+        $content = null;
+        if ($this->rows) {
+            foreach ($this->rows as $row) {
+                $content .= $this->rowToStr($row) . "\r\n";
+            }
+        }
+        return $content;
+    }
+    
+    /**
+     * Giving file to browser
+     * @todo Will be refactor later.
+     */
+    public function httpGive($fileName = null)
+    {
+        if ($fileName === null) {
+            $fileName = $this->file?$this->file:'data.csv';
+        }
+        header('Content-Type: application/octet-stream'); 
+        header('Content-Disposition: attachment; filename="' . $fileName . '"'); 
+        header('Content-Transfer-Encoding: binary');
+        echo (string) $this;
+        exit(0);
+    }
 
     /**
      * Read CSV file by line
@@ -91,7 +121,7 @@ class Csv
             $this->file($file);
         
         if (!is_file($file))
-            throw new \Exception('Wrong CSV file: ' . $file);
+            throw new Exception('Wrong CSV file: ' . $file);
 
         // Read and parse data from file
         $h = fopen($file, 'rb');
@@ -269,7 +299,7 @@ class Csv
         if (is_string($idColumn))
             $idColumn = array_search($idColumn, $this->map);
         if ($idColumn === false)
-            throw new \Exception('Cell ID is empty');
+            throw new Exception('Cell ID is empty');
         return $idColumn;
     }
 
@@ -338,7 +368,7 @@ class Csv
             $file = $this->file();
         $h = fopen($file, 'w');
         if ($h === false)
-            throw new \Exception('Can not create the file');
+            throw new Exception('Can not create the file');
         if ($this->rows) {
             foreach ($this->rows as $row) {
                 fputs($h, $this->rowToStr($row) . "\r\n");
@@ -346,6 +376,7 @@ class Csv
         }
         fclose($h);
     }
+    
 
     /**
      * Convert array row to string
@@ -408,7 +439,7 @@ class Csv
     private function isWriteable()
     {
         if ($this->readOnly())
-            throw new \Exception ('CSV Object only read');
+            throw new Exception ('CSV Object only read');
     }
 
     /**
