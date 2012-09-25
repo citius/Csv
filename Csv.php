@@ -7,7 +7,7 @@
  * 
  * @author Taynov Dmitry
  * @email dtaynov@gmail.com
- * @copyright Taynov Studio
+ * @copyright Taynov Dmitry
  */
  
 class Csv
@@ -171,7 +171,7 @@ class Csv
     /**
      * Splitter getter/setter
      * @param null $splitter
-     * @return Nanocoding_Csv|string
+     * @return Csv|string
      */
     public function splitter($splitter = null)
     {
@@ -185,7 +185,7 @@ class Csv
     /**
      * Wrapper setter/getter
      * @param null $wrapper
-     * @return Nanocoding_Csv|string
+     * @return Csv|string
      */
     public function wrapper($wrapper = null)
     {
@@ -199,7 +199,7 @@ class Csv
     /**
      * Set is first line is name of columns
      * @param $isNameOfColumn
-     * @return Nanocoding_Csv
+     * @return Csv
      */
     public function columnNames($isNameOfColumn)
     {
@@ -210,7 +210,7 @@ class Csv
     /**
      * Return all parsed rows
      * @param array|null $rows
-     * @return Nanocoding_Csv
+     * @return Csv
      */
     public function rows(array $rows = null)
     {
@@ -224,7 +224,7 @@ class Csv
     /**
      * Set path to csv file or get it if $file param is null
      * @param null $file
-     * @return Nanocoding_Csv
+     * @return Csv
      */
     public function file ($file = null)
     {
@@ -285,7 +285,7 @@ class Csv
     /**
      * Mapper
      * @param array|null $map
-     * @return Nanocoding_Csv
+     * @return Csv
      */
     public function map (array $map = null)
     {
@@ -299,7 +299,7 @@ class Csv
     /**
      * Add new row to CSV
      * @param array $row
-     * @return \Nanocoding_Csv
+     * @return Csv
      */
     public function add(array $row)
     {
@@ -314,7 +314,7 @@ class Csv
     /**
      * Remove row
      * @param $id
-     * @return \Nanocoding_Csv
+     * @return Csv
      */
     public function remove($id)
     {
@@ -386,7 +386,7 @@ class Csv
     /**
      * Mark object as read only
      * @param null $readOnly
-     * @return bool|Nanocoding_Csv
+     * @return bool|Csv
      */
     public function readOnly($readOnly = null)
     {
