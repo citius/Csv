@@ -82,7 +82,7 @@ class Csv
      * @return string
      */
     public function __toString() {
-        $content = null;
+        $content = '';
         if ($this->rows) {
             foreach ($this->rows as $row) {
                 $content .= $this->rowToStr($row) . "\r\n";
@@ -104,7 +104,7 @@ class Csv
         header('Content-Disposition: attachment; filename="' . $fileName . '"'); 
         header('Content-Transfer-Encoding: binary');
         echo (string) $this;
-        exit(0);
+        exit();
     }
 
     /**
@@ -334,9 +334,10 @@ class Csv
     public function add(array $row)
     {
         $this->isWriteable();
+        $row = $this->fillRow($row);
         $this->rows[] = $row;
         foreach ($row as $key => &$cell)
-            $this->columns[$key][] = $cell;
+            $this->columns[$key][] = $this->prepare($cell);
         $this->count++;
         return $this;
     }
@@ -400,18 +401,18 @@ class Csv
      * @param array $row
      * @return array
      */
-    private function fillRow(array $row)
+    public function fillRow(array $row, $fillTo = null)
     {
-        $countColumns   = count ($this->columns);
+        if ($fillTo === null)
+            $fillTo = count ($this->columns);
         $countRows      = count ($row);
-        $diff = $countColumns - $countRows;
-        if ($diff <= 0)
-            return $row;
-        else
-            return array_merge(
+        $diff = $fillTo - $countRows;
+        if ($diff > 0) 
+            $row = array_merge(
                 $row,
-                array_fill($countRows, $countColumns, "")
+                array_fill($countRows, $diff, "")
             );
+        return $row;
     }
 
     /**
@@ -498,5 +499,16 @@ class Csv
                 return $this->row($id);
         }
         return false;
+    }
+    
+    /**
+     * Prepared cell data
+     * 
+     * @param string $data
+     */
+    protected function prepare($data)
+    {
+        $data = str_replace(array("\n", "\r", $this->splitter, $this->wrapper,), "", $data);
+        return $data;
     }
 }
