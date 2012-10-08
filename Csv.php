@@ -53,7 +53,18 @@ class Csv
      * @var array
      */
     protected $map          = null;
+    
+    /**
+     * Set object to read only mode
+     * @var type 
+     */
     private $readOnly       = false;
+    
+    /**
+     * Columns titles
+     * @var array 
+     */
+    protected $titleRow     = array();
 
     /**
      * CSV file options
@@ -75,6 +86,9 @@ class Csv
         } else if (is_string($options)) {
             $this->file($options);
         }
+        // If set file then auto loading content from file
+        if ($this->file)
+            $this->load();
     }
     
     /**
@@ -84,6 +98,7 @@ class Csv
     public function __toString() {
         $content = '';
         if ($this->rows) {
+            $this->addTitleRow();
             foreach ($this->rows as $row) {
                 $content .= $this->rowToStr($row) . "\r\n";
             }
@@ -371,6 +386,7 @@ class Csv
         if ($h === false)
             throw new Exception('Can not create the file');
         if ($this->rows) {
+            $this->addTitleRow();
             foreach ($this->rows as $row) {
                 fputs($h, $this->rowToStr($row) . "\r\n");
             }
@@ -510,5 +526,16 @@ class Csv
     {
         $data = str_replace(array("\n", "\r", $this->splitter, $this->wrapper,), "", $data);
         return $data;
+    }
+    
+    /**
+     * Auto added column names
+     * if it were in loaded file
+     * and setted columnNames to true
+     */
+    protected function addTitleRow()
+    {
+        if (!empty($this->map) && $this->columnNames)
+            array_unshift ($this->rows, $this->map);
     }
 }
