@@ -86,9 +86,6 @@ class Csv
         } else if (is_string($options)) {
             $this->file($options);
         }
-        // If set file then auto loading content from file
-        if ($this->file)
-            $this->load();
     }
     
     /**
