@@ -1,4 +1,6 @@
 <?php
+namespace Csv;
+
 /**
  * Simple class for CSV file manipulation.
  * You can read, write new value to the
@@ -9,7 +11,6 @@
  * @email dtaynov@gmail.com
  * @copyright Taynov Dmitry
  */
- 
 class Csv
 {
     /**
