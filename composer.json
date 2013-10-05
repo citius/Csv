@@ -1,5 +1,5 @@
 {
-    "name": "citius/csv",
+    "name": "Citius/Csv",
     "version": "1.0.0",
     "type": "library",
     "description": "Csv is a simple CSV processor with smart search integration",
